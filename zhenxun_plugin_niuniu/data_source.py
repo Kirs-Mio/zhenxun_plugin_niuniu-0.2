@@ -8,9 +8,9 @@ from PIL import Image
 from io import BytesIO
 from decimal import Decimal as de
 from pathlib import Path
-from models.group_member_info import GroupInfoUser
-from utils.image_utils import BuildMat
-from configs.path_config import IMAGE_PATH
+from zhenxun.models.group_member_info import GroupInfoUser
+from zhenxun.utils.image_utils import BuildMat
+from zhenxun.configs.path_config import IMAGE_PATH
 from typing import List, Union
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
@@ -231,9 +231,9 @@ def apply_skill(my, oppo, increase_length1):
         oppo += de(0.8)*reduce
         if my < 0:
             result = random.choice([
-                f"哦吼！？看来你的牛牛因为击剑而凹进去了呢🤣🤣🤣！凹进去了{reduce}cm！",
-                f"由于对方击剑技术过于高超，造成你的牛牛凹了进去呢😰！凹进去了{reduce}cm！",
-                f"好惨啊，本来就不长的牛牛现在凹进去了呢😂！凹进去了{reduce}cm！"
+                f"哦吼！？看来你的牛牛因为击剑而凹进去了呢??????！凹进去了{reduce}cm！",
+                f"由于对方击剑技术过于高超，造成你的牛牛凹了进去呢??！凹进去了{reduce}cm！",
+                f"好惨啊，本来就不长的牛牛现在凹进去了呢??！凹进去了{reduce}cm！"
             ])
         else:
             result = f"对方以绝对的长度让你屈服了呢！你的长度减少{reduce}cm，当前长度{my}cm！"
