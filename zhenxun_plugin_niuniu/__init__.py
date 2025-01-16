@@ -1,4 +1,6 @@
+from nonebot.plugin import PluginMetadata
 from nonebot import on_command
+from zhenxun.configs.utils import Command, PluginCdBlock, PluginExtraData
 from nonebot.params import CommandArg
 from nonebot.adapters.onebot.v11 import (
     GroupMessageEvent,
@@ -8,21 +10,32 @@ from decimal import Decimal as de
 import time
 import random
 
-__zx_plugin_name__ = "牛牛大作战"
-__plugin_usage__ = """
-usage：
-    牛牛大作战，男同快乐游
-    合理安排时间，享受健康生活
+__plugin_meta__ = PluginMetadata(
+    name="牛牛大作战",
+    description="牛牛大作战，男同快乐游，合理安排时间，享受健康生活",
+    usage="""
+    注册牛牛 -- 注册你的牛牛
+    注销牛牛 -- 销毁你的牛牛
+    jj [@user] -- 与注册牛牛的人进行击剑，对战结果影响牛牛长度
+    我的牛牛 -- 查看自己牛牛长度
+    牛牛长度排行 -- 查看本群正数牛牛长度排行
+    牛牛深度排行 -- 查看本群负数牛牛深度排行
+    打胶 -- 对自己的牛牛进行操作，结果随机
+    """.strip(),
+    extra=PluginExtraData(
+        author="molanp",
+        version="0.6",
+        commands=[Command(command="注册牛牛"), Command(command="注销牛牛"), 
+                  Command(command="jj"), Command(command="JJ"), 
+                  Command(command="Jj"), Command(command="jJ"),
+                  Command(command="我的牛牛"), Command(command="牛牛长度排行"), 
+                  Command(command="牛牛深度排行"), Command(command="打胶"), 
+                  Command(command="牛牛大作战")],
+        limits=[PluginCdBlock(cd=3, result="你操作太快了, 稍等一下再试！")],
+    ).to_dict(),
+)
 
-    注册牛牛 --注册你的牛牛
-    注销牛牛 --销毁你的牛牛
-    jj [@user] --与注册牛牛的人进行击剑，对战结果影响牛牛长度
-    我的牛牛 --查看自己牛牛长度
-    牛牛长度排行 --查看本群正数牛牛长度排行
-    牛牛深度排行 --查看本群负数牛牛深度排行
-    打胶 --对自己的牛牛进行操作，结果随机
-""".strip()
-__plugin_des__ = "牛牛大作战(误"
+__plugin_des__ = "牛牛大作战 (误)"
 __plugin_type__ = ("群内小游戏",)
 __plugin_cmd__ = ['注册牛牛', '击剑', 'jj', 'JJ', 'Jj', 'jJ',
                   '我的牛牛', '牛牛长度排行', '牛牛深度排行', '打胶', '牛牛大作战', "注销牛牛"]
@@ -165,12 +178,12 @@ async def _(event: GroupMessageEvent):
         rank = 1
         previous_value = None
         sex_long = "深" if my_long < 0 else "长"
-        sex = "♀️" if my_long < 0 else "♂️"
+        sex = "♀?" if my_long < 0 else "♂?"
         for value in values:
             difference = 0 if previous_value is None else previous_value - value
             if value <= my_long:
                 value = abs(my_long) if my_long < 0 else my_long
-                result = f"\n📛{str(event.sender.card)}<{qq}>的牛牛信息\n⭕排名:#{rank}\n⭕性别:{sex}\n⭕{sex_long}度:{value}cm\n⭕与上一名差距:{round(difference,2)}cm\n⭕备注: "
+                result = f"\n??{str(event.sender.card)}<{qq}>的牛牛信息\n?排名:#{rank}\n?性别:{sex}\n?{sex_long}度:{value}cm\n?与上一名差距:{round(difference,2)}cm\n?备注: "
                 break
             else:
                 rank += 1
@@ -298,7 +311,7 @@ async def _(event: GroupMessageEvent):
         if time_pass < 180:
             time_rest = 180 - time_pass
             glue_refuse = [
-                f"才过去了{time_pass}s时间,你就又要打🦶了，身体受得住吗",
+                f"才过去了{time_pass}s时间,你就又要打??了，身体受得住吗",
                 f"不行不行，你的身体会受不了的，歇{time_rest}s再来吧",
                 f"休息一下吧，会炸膛的！{time_rest}s后再来吧",
                 f"打咩哟，你的牛牛会爆炸的，休息{time_rest}s再来吧"
@@ -316,11 +329,11 @@ async def _(event: GroupMessageEvent):
             my_long += reduce
             result = random.choice([
                 f"你嘿咻嘿咻一下，促进了牛牛发育，牛牛增加{reduce}cm了呢！",
-                f"你打了个舒服痛快的🦶呐，牛牛增加了{reduce}cm呢！"
+                f"你打了个舒服痛快的??呐，牛牛增加了{reduce}cm呢！"
             ])
         elif 40 < probability <= 60:
             result = random.choice([
-                "你打了个🦶，但是什么变化也没有，好奇怪捏~",
+                "你打了个??，但是什么变化也没有，好奇怪捏~",
                 "你的牛牛刚开始变长了，可过了一会又回来了，什么变化也没有，好奇怪捏~"
             ])
         else:
@@ -330,13 +343,13 @@ async def _(event: GroupMessageEvent):
                 result = random.choice([
                     f"哦吼！？看来你的牛牛凹进去了{reduce}cm呢！",
                     f"你突发恶疾！你的牛牛凹进去了{reduce}cm！",
-                    f"笑死，你因为打🦶过度导致牛牛凹进去了{reduce}cm！🤣🤣🤣"
+                    f"笑死，你因为打??过度导致牛牛凹进去了{reduce}cm！??????"
                 ])
             else:
                 result = random.choice([
-                    f"阿哦，你过度打🦶，牛牛缩短{reduce}cm了呢！",
-                    f"你的牛牛变长了很多，你很激动地继续打🦶，然后牛牛缩短了{reduce}cm呢！",
-                    f"小打怡情，大打伤身，强打灰飞烟灭！你过度打🦶，牛牛缩短了{reduce}cm捏！"
+                    f"阿哦，你过度打??，牛牛缩短{reduce}cm了呢！",
+                    f"你的牛牛变长了很多，你很激动地继续打??，然后牛牛缩短了{reduce}cm呢！",
+                    f"小打怡情，大打伤身，强打灰飞烟灭！你过度打??，牛牛缩短了{reduce}cm捏！"
                 ])
         content[group][qq] = my_long
         ReadOrWrite("data/long.json", content)
