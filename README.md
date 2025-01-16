@@ -1,7 +1,7 @@
 # 适配0.2版本zhenxun
 
 ## 使用方法
-下载压缩包，解压并放入`extensive_plugin`文件夹或其他自定义文件夹中
+下载压缩包，解压并放入`zhenxun_bot\zhenxun\plugins`文件夹或其他自定义文件夹中
 
 ## 指令
 |指令|功能描述|
